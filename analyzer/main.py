@@ -52,13 +52,23 @@ def main():
             found = True
 
         if found and not showed:
-            with open(file, "r", newline='') as f:
-                for _ in range(3):
-                    next(f)
+            # with open(file, "r", newline='') as f:
+            #     for _ in range(3):
+            #         next(f)
+            #
+            #     reader = csv.reader(f)
+            #     for row in reader:
+            #         print(row)
 
-                reader = csv.reader(f)
-                for row in reader:
-                    print(row)
+            df_full = pd.read_csv(file_path, skiprows=3)
+            if "time" in df_full.columns and "ax (m/s^2)" in df_full.columns and "ay (m/s^2)" in df_full.columns and "az (m/s^2)" in df_full.columns and "aT (m/s^2)" in df_full.columns:
+                lateral_acceleration = df_full["ax (m/s^2)"].tolist()
+                seconds = df_full["time"].tolist()
+                vertical_forward_acceleration = df_full["ay (m/s^2)"].tolist()
+                depth_acceleration = df_full["az (m/s^2)"].tolist()
+                total_magnitude = df_full["aT (m/s^2)"].tolist()
+
+            print (lateral_acceleration)
 
             showed = True
 
