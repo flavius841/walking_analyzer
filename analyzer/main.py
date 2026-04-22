@@ -1,3 +1,5 @@
+import csv
+
 import pandas as pd
 import numpy as np
 import argparse
@@ -33,20 +35,49 @@ def main():
               Type 'help' to see available commands or read more information.{CStyle.RESET_ALL}
               """)
 
+    found = False
+    showed = False
+
     while True:
-        message = prompt(
-            [("class:prompt", "please enter the name of your CSV file>>> ")],
-            style=style,
-            completer=command_completer,
-        ).strip()
+        if not found:
+            message = prompt(
+                [("class:prompt", "please enter the name of your CSV file>>> ")],
+                style=style,
+                completer=command_completer,
+            ).strip()
 
         file = find_file(message)
         if file is None: print("File not found")
+        else:
+            found = True
+
+        if found and not showed:
+            with open(file, "r", newline='') as f:
+                for _ in range(3):
+                    next(f)
+
+                reader = csv.reader(f)
+                for row in reader:
+                    print(row)
+
+            showed = True
+
 
 
 
 def find_file(filename):
     if os.path.exists(filename):
-        return open(filename, "rb")
+        return os.path.abspath(filename)
     else:
         return None
+
+def show_file:
+    with open(file, "r", newline='') as f:
+        for _ in range(3):
+            next(f)
+
+        reader = csv.reader(f)
+        for row in reader:
+            print(row)
+
+    showed = True
